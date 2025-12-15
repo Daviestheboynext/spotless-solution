@@ -1,0 +1,1382 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar | Spotless Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light: #f9fafb;
+            --dark: #111827;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --card-bg: #ffffff;
+            --sidebar-bg: #1f2937;
+            --main-bg: #f3f4f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: var(--main-bg);
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 25px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 25px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: #818cf8;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #818cf8, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .menu {
+            padding: 20px 0;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 25px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .menu-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .menu-item i {
+            width: 20px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 260px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            color: var(--dark);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-success {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 20px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Calendar Controls */
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .calendar-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .view-switcher {
+            display: flex;
+            background: var(--light);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .view-btn {
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            transition: all 0.3s;
+        }
+        
+        .view-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .calendar-filters {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .filter-group {
+            min-width: 180px;
+        }
+        
+        .filter-group select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        
+        /* Calendar Container */
+        .calendar-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        #calendar {
+            min-height: 700px;
+        }
+        
+        /* Calendar Event Styles */
+        .fc-event {
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 5px 8px !important;
+            cursor: move !important;
+            transition: all 0.3s !important;
+        }
+        
+        .fc-event:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .booking-confirmed {
+            background: linear-gradient(135deg, #10b981, #34d399) !important;
+            border-left: 4px solid #059669 !important;
+        }
+        
+        .booking-pending {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24) !important;
+            border-left: 4px solid #d97706 !important;
+        }
+        
+        .booking-cancelled {
+            background: linear-gradient(135deg, #ef4444, #f87171) !important;
+            border-left: 4px solid #dc2626 !important;
+        }
+        
+        .booking-completed {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa) !important;
+            border-left: 4px solid #1d4ed8 !important;
+        }
+        
+        .event-details {
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .event-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .event-time {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+        
+        .event-cleaner {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .stat-icon.confirmed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+        
+        .stat-icon.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .stat-icon.today {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+        }
+        
+        .stat-icon.revenue {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-content p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .status-confirmed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+        
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        .status-completed {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 70px;
+                padding: 20px 0;
+            }
+            
+            .logo-text, .menu-item span {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+                padding: 0 10px 20px;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .calendar-controls {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
+            
+            .calendar-nav {
+                justify-content: center;
+            }
+            
+            .calendar-filters {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .calendar-title {
+                min-width: auto;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-spray-can-sparkles"></i>
+            <div class="logo-text">Spotless</div>
+        </div>
+        
+        <div class="menu">
+            <a href="/dashboard" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/bookings" class="menu-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="/customers" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            <a href="/cleaners" class="menu-item">
+                <i class="fas fa-user-tie"></i>
+                <span>Cleaners</span>
+            </a>
+            <a href="/calendar" class="menu-item active">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendar</span>
+            </a>
+            <a href="/settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Booking Calendar</h1>
+            
+            <div class="header-actions">
+                <button class="btn btn-primary" id="newBookingBtn">
+                    <i class="fas fa-plus"></i> New Booking
+                </button>
+                
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">AD</div>
+                    <div>
+                        <div style="font-weight: 600;" id="userName">Admin User</div>
+                        <div style="font-size: 0.9rem; color: var(--gray);" id="userRole">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon confirmed">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="confirmedCount">0</h3>
+                    <p>Confirmed Today</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="pendingCount">0</h3>
+                    <p>Pending Bookings</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon today">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="todayCount">0</h3>
+                    <p>Total Today</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon revenue">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="todayRevenue">$0</h3>
+                    <p>Today's Revenue</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calendar Controls -->
+        <div class="calendar-controls">
+            <div class="calendar-nav">
+                <button class="btn btn-primary" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <h2 class="calendar-title" id="calendarTitle">March 2024</h2>
+                
+                <button class="btn btn-primary" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <button class="btn" id="todayBtn">
+                    <i class="fas fa-calendar-day"></i> Today
+                </button>
+            </div>
+            
+            <div class="calendar-filters">
+                <div class="view-switcher">
+                    <button class="view-btn active" data-view="dayGridMonth">Month</button>
+                    <button class="view-btn" data-view="timeGridWeek">Week</button>
+                    <button class="view-btn" data-view="timeGridDay">Day</button>
+                    <button class="view-btn" data-view="listWeek">List</button>
+                </div>
+                
+                <div class="filter-group">
+                    <select id="cleanerFilter">
+                        <option value="">All Cleaners</option>
+                        <!-- Cleaners will be loaded here -->
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calendar Container -->
+        <div class="calendar-container">
+            <div id="calendar"></div>
+        </div>
+    </div>
+    
+    <!-- Booking Details Modal -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Booking Details</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            
+            <div id="modalContent">
+                <!-- Content will be loaded here -->
+            </div>
+            
+            <div class="modal-actions" id="modalActions">
+                <!-- Actions will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Booking Modal -->
+    <div class="modal" id="newBookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Booking</h2>
+                <button class="close-modal" id="closeNewModal">&times;</button>
+            </div>
+            
+            <form id="bookingForm">
+                <input type="hidden" id="bookingId" name="id">
+                
+                <div class="form-group">
+                    <label for="customerSelect">Customer *</label>
+                    <select id="customerSelect" name="customer_id" required>
+                        <option value="">Select Customer</option>
+                        <!-- Customers will be loaded here -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cleanerSelect">Cleaner *</label>
+                    <select id="cleanerSelect" name="cleaner_id" required>
+                        <option value="">Select Cleaner</option>
+                        <!-- Cleaners will be loaded here -->
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookingDate">Date *</label>
+                        <input type="date" id="bookingDate" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bookingTime">Time *</label>
+                        <input type="time" id="bookingTime" name="time" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="duration">Duration (hours) *</label>
+                        <select id="duration" name="duration" required>
+                            <option value="1">1 hour</option>
+                            <option value="2" selected>2 hours</option>
+                            <option value="3">3 hours</option>
+                            <option value="4">4 hours</option>
+                            <option value="5">5 hours</option>
+                            <option value="6">6 hours</option>
+                            <option value="8">8 hours</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="pending">Pending</option>
+                            <option value="confirmed" selected>Confirmed</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceType">Service Type</label>
+                    <select id="serviceType" name="service_type">
+                        <option value="regular_cleaning">Regular Cleaning</option>
+                        <option value="deep_cleaning">Deep Cleaning</option>
+                        <option value="move_cleaning">Move In/Out</option>
+                        <option value="office_cleaning">Office Cleaning</option>
+                        <option value="carpet_cleaning">Carpet Cleaning</option>
+                        <option value="window_cleaning">Window Cleaning</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Any special instructions..."></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn" id="cancelBookingBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveBookingBtn">Save Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
+    <script>
+        // Global variables
+        let calendar;
+        let currentView = 'dayGridMonth';
+        const token = localStorage.getItem('token') || 'demo-token';
+        const user = JSON.parse(localStorage.getItem('user') || '{"name":"Admin User","email":"admin@spotless.com","role":"admin"}');
+        
+        // Check authentication
+        if (!token) {
+            window.location.href = '/login';
+        }
+        
+        // Initialize user info
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('userRole').textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+        document.getElementById('userAvatar').textContent = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+        
+        // Initialize calendar
+        function initCalendar() {
+            const calendarEl = document.getElementById('calendar');
+            
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: currentView,
+                headerToolbar: false, // We're using our own controls
+                height: 'auto',
+                editable: true, // Enable drag & drop
+                droppable: true,
+                selectable: true,
+                selectMirror: true,
+                dayMaxEvents: true,
+                navLinks: false,
+                businessHours: {
+                    daysOfWeek: [1, 2, 3, 4, 5], // Monday - Friday
+                    startTime: '08:00',
+                    endTime: '20:00',
+                },
+                slotMinTime: '06:00',
+                slotMaxTime: '22:00',
+                allDaySlot: false,
+                eventDisplay: 'block',
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: 'short',
+                    hour12: true
+                },
+                eventDidMount: function(info) {
+                    // Add tooltip
+                    info.el.title = `${info.event.title}\n${info.event.extendedProps.cleaner}\n${info.event.extendedProps.customer}\nStatus: ${info.event.extendedProps.status}`;
+                },
+                events: function(fetchInfo, successCallback, failureCallback) {
+                    loadBookings(fetchInfo.start, fetchInfo.end)
+                        .then(bookings => successCallback(bookings))
+                        .catch(error => {
+                            console.error('Error loading bookings:', error);
+                            failureCallback(error);
+                        });
+                },
+                eventClick: function(info) {
+                    showBookingDetails(info.event);
+                },
+                dateClick: function(info) {
+                    // If clicked on a day, open new booking modal with that date pre-filled
+                    if (currentView === 'dayGridMonth') {
+                        openNewBookingModal(info.dateStr);
+                    }
+                },
+                eventDrop: function(info) {
+                    updateBookingTime(info.event);
+                },
+                eventResize: function(info) {
+                    updateBookingDuration(info.event);
+                },
+                eventChange: function(info) {
+                    updateBookingStats();
+                }
+            });
+            
+            calendar.render();
+            updateCalendarTitle();
+            loadFilters();
+            updateBookingStats();
+        }
+        
+        // Load bookings for calendar
+        async function loadBookings(startDate, endDate) {
+            try {
+                let url = `/api/bookings/calendar?token=${token}&start=${startDate.toISOString()}&end=${endDate.toISOString()}`;
+                
+                const cleanerFilter = document.getElementById('cleanerFilter').value;
+                const statusFilter = document.getElementById('statusFilter').value;
+                
+                if (cleanerFilter) url += `&cleaner_id=${cleanerFilter}`;
+                if (statusFilter) url += `&status=${statusFilter}`;
+                
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Failed to load bookings');
+                
+                const data = await response.json();
+                if (data.success) {
+                    return data.data.map(booking => ({
+                        id: booking.id,
+                        title: booking.service_type ? 
+                            `${booking.service_type.replace('_', ' ').toUpperCase()}` : 
+                            'CLEANING',
+                        start: `${booking.date}T${booking.time}`,
+                        end: calculateEndTime(booking.date, booking.time, booking.duration || 2),
+                        extendedProps: {
+                            customer: booking.customer_name,
+                            customer_email: booking.customer_email,
+                            cleaner: booking.cleaner_name,
+                            cleaner_id: booking.cleaner_id,
+                            service_type: booking.service_type,
+                            status: booking.status,
+                            duration: booking.duration || 2,
+                            notes: booking.notes || '',
+                            address: booking.address || '',
+                            total_price: booking.total_price || 0
+                        },
+                        backgroundColor: getStatusColor(booking.status),
+                        borderColor: getStatusBorderColor(booking.status),
+                        classNames: [`booking-${booking.status}`],
+                        textColor: 'white'
+                    }));
+                }
+                return [];
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                return [];
+            }
+        }
+        
+        // Calculate end time based on duration
+        function calculateEndTime(date, startTime, duration) {
+            const start = new Date(`${date}T${startTime}`);
+            const end = new Date(start.getTime() + (duration * 60 * 60 * 1000));
+            return end.toISOString().split('T')[1].substring(0, 5);
+        }
+        
+        // Get color based on status
+        function getStatusColor(status) {
+            const colors = {
+                'confirmed': '#10b981',
+                'pending': '#f59e0b',
+                'cancelled': '#ef4444',
+                'completed': '#3b82f6'
+            };
+            return colors[status] || '#6b7280';
+        }
+        
+        function getStatusBorderColor(status) {
+            const colors = {
+                'confirmed': '#059669',
+                'pending': '#d97706',
+                'cancelled': '#dc2626',
+                'completed': '#1d4ed8'
+            };
+            return colors[status] || '#4b5563';
+        }
+        
+        // Update booking time after drag & drop
+        async function updateBookingTime(event) {
+            try {
+                const start = event.start;
+                const date = start.toISOString().split('T')[0];
+                const time = start.toISOString().split('T')[1].substring(0, 5);
+                
+                const response = await fetch(`/api/bookings/${event.id}?token=${token}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        date: date,
+                        time: time
+                    })
+                });
+                
+                const data = await response.json();
+                if (!data.success) {
+                    showError('Failed to update booking time');
+                    calendar.refetchEvents(); // Revert to original position
+                } else {
+                    showSuccess('Booking rescheduled successfully');
+                }
+            } catch (error) {
+                console.error('Error updating booking:', error);
+                showError('Network error');
+                calendar.refetchEvents(); // Revert to original position
+            }
+        }
+        
+        // Update booking duration after resize
+        async function updateBookingDuration(event) {
+            try {
+                const start = event.start;
+                const end = event.end || event.start;
+                const duration = Math.round((end - start) / (1000 * 60 * 60));
+                
+                const response = await fetch(`/api/bookings/${event.id}?token=${token}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        duration: duration
+                    })
+                });
+                
+                const data = await response.json();
+                if (!data.success) {
+                    showError('Failed to update booking duration');
+                    calendar.refetchEvents(); // Revert to original position
+                } else {
+                    showSuccess('Booking duration updated');
+                }
+            } catch (error) {
+                console.error('Error updating booking:', error);
+                showError('Network error');
+                calendar.refetchEvents(); // Revert to original position
+            }
+        }
+        
+        // Show booking details in modal
+        async function showBookingDetails(event) {
+            try {
+                const response = await fetch(`/api/bookings/${event.id}?token=${token}`);
+                if (!response.ok) throw new Error('Failed to load booking details');
+                
+                const data = await response.json();
+                if (data.success) {
+                    const booking = data.data;
+                    
+                    // Format date and time
+                    const date = new Date(`${booking.date}T${booking.time}`);
+                    const formattedDate = date.toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    const formattedTime = date.toLocaleTimeString('en-US', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                    
+                    // Calculate end time
+                    const endTime = new Date(date.getTime() + (booking.duration * 60 * 60 * 1000));
+                    const formattedEndTime = endTime.toLocaleTimeString('en-US', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                    
+                    document.getElementById('modalTitle').textContent = 'Booking Details';
+                    document.getElementById('modalContent').innerHTML = `
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 10px;">${booking.service_type ? booking.service_type.replace('_', ' ').toUpperCase() : 'Regular Cleaning'}</h3>
+                            <span class="status-badge status-${booking.status}">${booking.status.toUpperCase()}</span>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <p><strong>Date & Time:</strong> ${formattedDate}, ${formattedTime} - ${formattedEndTime}</p>
+                            <p><strong>Duration:</strong> ${booking.duration || 2} hours</p>
+                            <p><strong>Customer:</strong> ${booking.customer_name} (${booking.customer_email})</p>
+                            <p><strong>Cleaner:</strong> ${booking.cleaner_name}</p>
+                            <p><strong>Address:</strong> ${booking.address || 'Not specified'}</p>
+                            <p><strong>Total Price:</strong> $${booking.total_price || (25 * (booking.duration || 2)).toFixed(2)}</p>
+                            ${booking.notes ? `<p><strong>Notes:</strong> ${booking.notes}</p>` : ''}
+                        </div>
+                    `;
+                    
+                    document.getElementById('modalActions').innerHTML = `
+                        <button class="btn" id="editBookingBtn" data-id="${booking.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-success" id="confirmBookingBtn" data-id="${booking.id}" ${booking.status === 'confirmed' || booking.status === 'completed' ? 'disabled' : ''}>
+                            <i class="fas fa-check"></i> Confirm
+                        </button>
+                        <button class="btn btn-danger" id="cancelBookingBtnModal" data-id="${booking.id}" ${booking.status === 'cancelled' ? 'disabled' : ''}>
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    `;
+                    
+                    // Add event listeners to action buttons
+                    document.getElementById('editBookingBtn').addEventListener('click', () => editBooking(booking.id));
+                    document.getElementById('confirmBookingBtn').addEventListener('click', () => updateBookingStatus(booking.id, 'confirmed'));
+                    document.getElementById('cancelBookingBtnModal').addEventListener('click', () => updateBookingStatus(booking.id, 'cancelled'));
+                    
+                    document.getElementById('bookingModal').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error loading booking details:', error);
+                showError('Failed to load booking details');
+            }
+        }
+        
+        // Update booking status
+        async function updateBookingStatus(bookingId, status) {
+            try {
+                const response = await fetch(`/api/bookings/${bookingId}?token=${token}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: status })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showSuccess(`Booking ${status} successfully`);
+                    document.getElementById('bookingModal').style.display = 'none';
+                    calendar.refetchEvents();
+                    updateBookingStats();
+                } else {
+                    showError(`Failed to ${status} booking`);
+                }
+            } catch (error) {
+                console.error('Error updating booking:', error);
+                showError('Network error');
+            }
+        }
+        
+        // Edit booking
+        async function editBooking(bookingId) {
+            try {
+                const response = await fetch(`/api/bookings/${bookingId}?token=${token}`);
+                if (!response.ok) throw new Error('Failed to load booking');
+                
+                const data = await response.json();
+                if (data.success) {
+                    const booking = data.data;
+                    
+                    document.getElementById('bookingId').value = booking.id;
+                    document.getElementById('customerSelect').value = booking.customer_id;
+                    document.getElementById('cleanerSelect').value = booking.cleaner_id;
+                    document.getElementById('bookingDate').value = booking.date;
+                    document.getElementById('bookingTime').value = booking.time;
+                    document.getElementById('duration').value = booking.duration || 2;
+                    document.getElementById('status').value = booking.status;
+                    document.getElementById('serviceType').value = booking.service_type || 'regular_cleaning';
+                    document.getElementById('notes').value = booking.notes || '';
+                    
+                    document.getElementById('bookingModal').style.display = 'none';
+                    document.getElementById('newBookingModal').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error loading booking:', error);
+                showError('Failed to load booking');
+            }
+        }
+        
+        // Open new booking modal
+        function openNewBookingModal(prefilledDate = null) {
+            document.getElementById('bookingId').value = '';
+            document.getElementById('bookingForm').reset();
+            document.getElementById('status').value = 'confirmed';
+            
+            if (prefilledDate) {
+                document.getElementById('bookingDate').value = prefilledDate;
+            } else {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('bookingDate').value = today;
+            }
+            
+            // Set default time to next hour
+            const nextHour = new Date();
+            nextHour.setHours(nextHour.getHours() + 1, 0, 0, 0);
+            document.getElementById('bookingTime').value = nextHour.toTimeString().substring(0, 5);
+            
+            loadCustomersAndCleaners();
+            document.getElementById('newBookingModal').style.display = 'flex';
+        }
+        
+        // Load customers and cleaners for dropdowns
+        async function loadCustomersAndCleaners() {
+            try {
+                // Load customers
+                const customersResponse = await fetch(`/api/customers?token=${token}`);
+                if (customersResponse.ok) {
+                    const customersData = await customersResponse.json();
+                    if (customersData.success) {
+                        const customerSelect = document.getElementById('customerSelect');
+                        customerSelect.innerHTML = '<option value="">Select Customer</option>';
+                        customersData.data.forEach(customer => {
+                            const option = document.createElement('option');
+                            option.value = customer.id;
+                            option.textContent = `${customer.name} (${customer.email})`;
+                            customerSelect.appendChild(option);
+                        });
+                    }
+                }
+                
+                // Load cleaners
+                const cleanersResponse = await fetch(`/api/cleaners?token=${token}`);
+                if (cleanersResponse.ok) {
+                    const cleanersData = await cleanersResponse.json();
+                    if (cleanersData.success) {
+                        const cleanerSelect = document.getElementById('cleanerSelect');
+                        cleanerSelect.innerHTML = '<option value="">Select Cleaner</option>';
+                        cleanersData.data.forEach(cleaner => {
+                            const option = document.createElement('option');
+                            option.value = cleaner.id;
+                            option.textContent = `${cleaner.name} - $${cleaner.hourly_rate}/hr`;
+                            cleanerSelect.appendChild(option);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading dropdown data:', error);
+            }
+        }
+        
+        // Load filters
+        async function loadFilters() {
+            try {
+                // Load cleaners for filter
+                const response = await fetch(`/api/cleaners?token=${token}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        const cleanerFilter = document.getElementById('cleanerFilter');
+                        data.data.forEach(cleaner => {
+                            const option = document.createElement('option');
+                            option.value = cleaner.id;
+                            option.textContent = cleaner.name;
+                            cleanerFilter.appendChild(option);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading filters:', error);
+            }
+        }
+        
+        // Update booking stats
+        async function updateBookingStats() {
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const response = await fetch(`/api/bookings/stats?token=${token}&date=${today}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        document.getElementById('confirmedCount').textContent = data.data.confirmed_today || 0;
+                        document.getElementById('pendingCount').textContent = data.data.pending_total || 0;
+                        document.getElementById('todayCount').textContent = data.data.total_today || 0;
+                        document.getElementById('todayRevenue').textContent = `$${data.data.revenue_today || 0}`;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+        
+        // Update calendar title
+        function updateCalendarTitle() {
+            const currentDate = calendar.getDate();
+            const title = currentDate.toLocaleDateString('en-US', { 
+                month: 'long', 
+                year: 'numeric' 
+            });
+            document.getElementById('calendarTitle').textContent = title;
+        }
+        
+        // Save booking
+        async function saveBooking(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            data.token = token;
+            
+            const isEdit = !!data.id;
+            const url = isEdit ? `/api/bookings/${data.id}` : '/api/bookings';
+            const method = isEdit ? 'PUT' : 'POST';
+            
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    showSuccess(`Booking ${isEdit ? 'updated' : 'created'} successfully!`);
+                    document.getElementById('newBookingModal').style.display = 'none';
+                    calendar.refetchEvents();
+                    updateBookingStats();
+                } else {
+                    showError(`Failed to ${isEdit ? 'update' : 'create'} booking: ${result.message}`);
+                }
+            } catch (error) {
+                console.error('Error saving booking:', error);
+                showError('Network error. Please try again.');
+            }
+        }
+        
+        // Calendar navigation
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            calendar.prev();
+            updateCalendarTitle();
+        });
+        
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            calendar.next();
+            updateCalendarTitle();
+        });
+        
+        document.getElementById('todayBtn').addEventListener('click', () => {
+            calendar.today();
+            updateCalendarTitle();
+        });
+        
+        // View switching
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                currentView = this.dataset.view;
+                calendar.changeView(currentView);
+            });
+        });
+        
+        // Filter changes
+        document.getElementById('cleanerFilter').addEventListener('change', () => {
+            calendar.refetchEvents();
+        });
+        
+        document.getElementById('statusFilter').addEventListener('change', () => {
+            calendar.refetchEvents();
+        });
+        
+        // Modal controls
+        document.getElementById('newBookingBtn').addEventListener('click', () => openNewBookingModal());
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('bookingModal').style.display = 'none';
+        });
+        
+        document.getElementById('closeNewModal').addEventListener('click', () => {
+            document.getElementById('newBookingModal').style.display = 'none';
+        });
+        
+        document.getElementById('cancelBookingBtn').addEventListener('click', () => {
+            document.getElementById('newBookingModal').style.display = 'none';
+        });
+        
+        document.getElementById('bookingForm').addEventListener('submit', saveBooking);
+        
+        // Utility functions
+        function showSuccess(message) {
+            alert('✅ ' + message);
+        }
+        
+        function showError(message) {
+            alert('❌ ' + message);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initCalendar();
+        });
+    </script>
+</body>
+</html>

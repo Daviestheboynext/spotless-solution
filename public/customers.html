@@ -1,0 +1,1071 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers | Spotless Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light: #f9fafb;
+            --dark: #111827;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --card-bg: #ffffff;
+            --sidebar-bg: #1f2937;
+            --main-bg: #f3f4f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: var(--main-bg);
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar (same as other pages) */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 25px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 25px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: #818cf8;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #818cf8, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .menu {
+            padding: 20px 0;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 25px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .menu-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .menu-item i {
+            width: 20px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 260px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            color: var(--dark);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-success {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+        
+        .btn-icon {
+            padding: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 20px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Filters */
+        .filters {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+        }
+        
+        .search-box {
+            position: relative;
+            flex: 1;
+        }
+        
+        .search-box label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        /* Customer Cards */
+        .customers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .customer-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .customer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .customer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .customer-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .customer-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .customer-info p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .customer-info i {
+            width: 16px;
+            color: var(--primary);
+        }
+        
+        .customer-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 10px;
+            background: var(--light);
+            border-radius: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            display: block;
+            margin-top: 5px;
+        }
+        
+        .customer-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .customer-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-light);
+        }
+        
+        .last-booking {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .customer-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--light);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray);
+        }
+        
+        .tag-premium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .tag-new {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--gray-light);
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 70px;
+                padding: 20px 0;
+            }
+            
+            .logo-text, .menu-item span {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+                padding: 0 10px 20px;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .customers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .customer-stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .customer-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .customer-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-spray-can-sparkles"></i>
+            <div class="logo-text">Spotless</div>
+        </div>
+        
+        <div class="menu">
+            <a href="/dashboard" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/bookings" class="menu-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="/customers" class="menu-item active">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            <a href="/cleaners" class="menu-item">
+                <i class="fas fa-user-tie"></i>
+                <span>Cleaners</span>
+            </a>
+            <a href="/settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Customer Management</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="newCustomerBtn">
+                    <i class="fas fa-user-plus"></i> Add Customer
+                </button>
+                
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">AD</div>
+                    <div>
+                        <div style="font-weight: 600;" id="userName">Admin User</div>
+                        <div style="font-size: 0.9rem; color: var(--gray);" id="userRole">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search -->
+        <div class="filters">
+            <div class="search-box">
+                <label>Search Customers</label>
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchFilter" placeholder="Search by name, email, or phone...">
+            </div>
+            
+            <button class="btn" id="resetSearchBtn">
+                <i class="fas fa-redo"></i> Clear
+            </button>
+        </div>
+        
+        <!-- Stats Overview -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--gray);">Total Customers</div>
+                        <div style="font-size: 2rem; font-weight: 700;" id="totalCustomers">0</div>
+                    </div>
+                    <div style="width: 50px; height: 50px; background: rgba(79, 70, 229, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-users" style="font-size: 1.5rem; color: var(--primary);"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--gray);">Active Customers</div>
+                        <div style="font-size: 2rem; font-weight: 700;" id="activeCustomers">0</div>
+                    </div>
+                    <div style="width: 50px; height: 50px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user-check" style="font-size: 1.5rem; color: var(--secondary);"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--gray);">Avg. Bookings</div>
+                        <div style="font-size: 2rem; font-weight: 700;" id="avgBookings">0</div>
+                    </div>
+                    <div style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-calendar-alt" style="font-size: 1.5rem; color: var(--warning);"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--gray);">Revenue Generated</div>
+                        <div style="font-size: 2rem; font-weight: 700;" id="totalRevenue">$0</div>
+                    </div>
+                    <div style="width: 50px; height: 50px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-dollar-sign" style="font-size: 1.5rem; color: #8b5cf6;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Customers Grid -->
+        <div id="customersContainer">
+            <div class="customers-grid" id="customersGrid">
+                <!-- Customers will be loaded here -->
+                <div class="empty-state" id="loadingState">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <h3>Loading customers...</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Customer Modal -->
+    <div class="modal" id="customerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Customer</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            
+            <form id="customerForm">
+                <input type="hidden" id="customerId" name="id">
+                
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" rows="2"></textarea>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="preferred_cleaner">Preferred Cleaner</label>
+                        <select id="preferred_cleaner" name="preferred_cleaner">
+                            <option value="">None</option>
+                            <!-- Cleaners will be loaded here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loyalty_points">Loyalty Points</label>
+                        <input type="number" id="loyalty_points" name="loyalty_points" value="0" min="0">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="special_instructions">Special Instructions</label>
+                    <textarea id="special_instructions" name="special_instructions" rows="3" placeholder="Any special requirements, allergies, or notes..."></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn" id="cancelCustomerBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveCustomerBtn">Save Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <button class="close-modal" id="closeDeleteModal">&times;</button>
+            </div>
+            
+            <div style="padding: 20px 0;">
+                <p>Are you sure you want to delete this customer?</p>
+                <p style="color: var(--danger); font-weight: 600;">This will also delete all their bookings.</p>
+            </div>
+            
+            <div class="modal-actions">
+                <button type="button" class="btn" id="cancelDeleteBtn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Customer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let customers = [];
+        let cleaners = [];
+        let currentCustomerId = null;
+        const token = localStorage.getItem('token') || 'demo-token';
+        const user = JSON.parse(localStorage.getItem('user') || '{"name":"Admin User","email":"admin@spotless.com","role":"admin"}');
+        
+        // Check authentication
+        if (!token) {
+            window.location.href = '/login';
+        }
+        
+        // Initialize user info
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('userRole').textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+        document.getElementById('userAvatar').textContent = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+        
+        // Load customers
+        async function loadCustomers() {
+            try {
+                const search = document.getElementById('searchFilter').value;
+                let url = `/api/customers?token=${token}`;
+                if (search) url += `&search=${encodeURIComponent(search)}`;
+                
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        customers = data.data;
+                        renderCustomers();
+                        updateStats();
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading customers:', error);
+                showError('Failed to load customers');
+            }
+        }
+        
+        // Load cleaners for dropdown
+        async function loadCleaners() {
+            try {
+                const response = await fetch(`/api/cleaners?token=${token}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        cleaners = data.data;
+                        const cleanerSelect = document.getElementById('preferred_cleaner');
+                        cleanerSelect.innerHTML = '<option value="">None</option>';
+                        
+                        cleaners.forEach(cleaner => {
+                            const option = document.createElement('option');
+                            option.value = cleaner.id;
+                            option.textContent = cleaner.name;
+                            cleanerSelect.appendChild(option);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading cleaners:', error);
+            }
+        }
+        
+        // Render customers
+        function renderCustomers() {
+            const container = document.getElementById('customersGrid');
+            
+            if (customers.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-user-friends"></i>
+                        <h3>No customers found</h3>
+                        <p>Add your first customer to get started</p>
+                        <button class="btn btn-primary" id="addFirstCustomerBtn" style="margin-top: 20px;">
+                            <i class="fas fa-user-plus"></i> Add Customer
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('addFirstCustomerBtn')?.addEventListener('click', openCustomerModal);
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            customers.forEach(customer => {
+                const initials = customer.name ? customer.name.split(' ').map(n => n[0]).join('') : 'CU';
+                const totalBookings = customer.total_bookings || 0;
+                const completedBookings = customer.completed_bookings || 0;
+                const loyaltyPoints = customer.loyalty_points || 0;
+                
+                // Calculate customer value
+                const customerValue = totalBookings > 0 ? 'Regular' : 'New';
+                const tagClass = loyaltyPoints > 100 ? 'tag-premium' : totalBookings === 0 ? 'tag-new' : '';
+                
+                const card = document.createElement('div');
+                card.className = 'customer-card';
+                card.innerHTML = `
+                    <div class="customer-header">
+                        <div class="customer-avatar">${initials}</div>
+                        <div class="customer-info">
+                            <h3>${customer.name}</h3>
+                            <p><i class="fas fa-envelope"></i> ${customer.email}</p>
+                            <p><i class="fas fa-phone"></i> ${customer.phone || 'Not provided'}</p>
+                            ${customer.preferred_cleaner ? `<p><i class="fas fa-user-tie"></i> Prefers: ${customer.preferred_cleaner}</p>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="customer-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">${totalBookings}</span>
+                            <span class="stat-label">Total Bookings</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${completedBookings}</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">${loyaltyPoints}</span>
+                            <span class="stat-label">Loyalty Points</span>
+                        </div>
+                    </div>
+                    
+                    ${customer.special_instructions ? `
+                    <div style="margin: 15px 0; padding: 10px; background: var(--light); border-radius: 8px; font-size: 0.9rem;">
+                        <strong>Notes:</strong> ${customer.special_instructions}
+                    </div>
+                    ` : ''}
+                    
+                    <div class="customer-footer">
+                        <div>
+                            <span class="customer-tag ${tagClass}">${customerValue} Customer</span>
+                            ${loyaltyPoints > 100 ? '<span class="customer-tag tag-premium" style="margin-left: 5px;">Premium</span>' : ''}
+                        </div>
+                        <div class="customer-actions">
+                            <button class="btn btn-icon btn-primary" onclick="editCustomer(${customer.id})" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-icon btn-success" onclick="viewBookings(${customer.id})" title="View Bookings">
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+                            <button class="btn btn-icon btn-danger" onclick="confirmDelete(${customer.id})" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // Update stats
+        function updateStats() {
+            const total = customers.length;
+            const active = customers.filter(c => (c.total_bookings || 0) > 0).length;
+            const totalBookings = customers.reduce((sum, c) => sum + (c.total_bookings || 0), 0);
+            const avgBookings = total > 0 ? (totalBookings / total).toFixed(1) : 0;
+            
+            // Calculate revenue (simplified - would need actual revenue data)
+            const estimatedRevenue = totalBookings * 75; // Assuming $75 average per booking
+            
+            document.getElementById('totalCustomers').textContent = total;
+            document.getElementById('activeCustomers').textContent = active;
+            document.getElementById('avgBookings').textContent = avgBookings;
+            document.getElementById('totalRevenue').textContent = `$${estimatedRevenue.toFixed(0)}`;
+        }
+        
+        // Modal functions
+        function openCustomerModal() {
+            document.getElementById('modalTitle').textContent = 'Add New Customer';
+            document.getElementById('customerForm').reset();
+            document.getElementById('customerId').value = '';
+            document.getElementById('customerModal').style.display = 'flex';
+        }
+        
+        function closeCustomerModal() {
+            document.getElementById('customerModal').style.display = 'none';
+            document.getElementById('customerForm').reset();
+        }
+        
+        function openDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'flex';
+        }
+        
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            currentCustomerId = null;
+        }
+        
+        // Edit customer
+        async function editCustomer(id) {
+            try {
+                const customer = customers.find(c => c.id == id);
+                if (customer) {
+                    document.getElementById('modalTitle').textContent = 'Edit Customer';
+                    document.getElementById('customerId').value = customer.id;
+                    document.getElementById('name').value = customer.name;
+                    document.getElementById('email').value = customer.email;
+                    document.getElementById('phone').value = customer.phone || '';
+                    document.getElementById('address').value = customer.address || '';
+                    document.getElementById('preferred_cleaner').value = customer.preferred_cleaner || '';
+                    document.getElementById('loyalty_points').value = customer.loyalty_points || 0;
+                    document.getElementById('special_instructions').value = customer.special_instructions || '';
+                    
+                    document.getElementById('customerModal').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error loading customer:', error);
+                showError('Error loading customer details');
+            }
+        }
+        
+        // View customer bookings
+        function viewBookings(customerId) {
+            // Redirect to bookings page with customer filter
+            window.location.href = `/bookings?customer=${customerId}`;
+        }
+        
+        // Confirm delete
+        function confirmDelete(id) {
+            currentCustomerId = id;
+            openDeleteModal();
+        }
+        
+        // Delete customer
+        async function deleteCustomer() {
+            try {
+                const response = await fetch(`/api/customers/${currentCustomerId}?token=${token}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showSuccess('Customer deleted successfully!');
+                    closeDeleteModal();
+                    loadCustomers();
+                } else {
+                    showError('Failed to delete customer');
+                }
+            } catch (error) {
+                console.error('Error deleting customer:', error);
+                showError('Network error. Please try again.');
+            }
+        }
+        
+        // Save customer
+        async function saveCustomer(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            data.token = token;
+            
+            const isEdit = !!data.id;
+            const url = isEdit ? `/api/customers/${data.id}` : '/api/customers';
+            const method = isEdit ? 'PUT' : 'POST';
+            
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    showSuccess(`Customer ${isEdit ? 'updated' : 'created'} successfully!`);
+                    closeCustomerModal();
+                    loadCustomers();
+                } else {
+                    showError(`Failed to ${isEdit ? 'update' : 'create'} customer: ${result.message}`);
+                }
+            } catch (error) {
+                console.error('Error saving customer:', error);
+                showError('Network error. Please try again.');
+            }
+        }
+        
+        // Search customers
+        function searchCustomers() {
+            loadCustomers();
+        }
+        
+        // Reset search
+        function resetSearch() {
+            document.getElementById('searchFilter').value = '';
+            loadCustomers();
+        }
+        
+        // Utility functions
+        function showSuccess(message) {
+            alert('✅ ' + message);
+        }
+        
+        function showError(message) {
+            alert('❌ ' + message);
+        }
+        
+        // Event Listeners
+        document.getElementById('newCustomerBtn').addEventListener('click', openCustomerModal);
+        document.getElementById('closeModal').addEventListener('click', closeCustomerModal);
+        document.getElementById('cancelCustomerBtn').addEventListener('click', closeCustomerModal);
+        document.getElementById('customerForm').addEventListener('submit', saveCustomer);
+        
+        document.getElementById('closeDeleteModal').addEventListener('click', closeDeleteModal);
+        document.getElementById('cancelDeleteBtn').addEventListener('click', closeDeleteModal);
+        document.getElementById('confirmDeleteBtn').addEventListener('click', deleteCustomer);
+        
+        document.getElementById('searchFilter').addEventListener('input', searchCustomers);
+        document.getElementById('resetSearchBtn').addEventListener('click', resetSearch);
+        
+        // Auto-search on input
+        let searchTimeout;
+        document.getElementById('searchFilter').addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(searchCustomers, 500);
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCleaners();
+            loadCustomers();
+        });
+    </script>
+</body>
+</html>

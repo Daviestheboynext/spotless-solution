@@ -1,0 +1,665 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Spotless Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light: #f9fafb;
+            --dark: #111827;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --card-bg: #ffffff;
+            --sidebar-bg: #1f2937;
+            --main-bg: #f3f4f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: var(--main-bg);
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 25px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 25px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: #818cf8;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #818cf8, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .menu {
+            padding: 20px 0;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 25px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .menu-item i {
+            width: 20px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 260px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            color: var(--dark);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 20px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .card-header h2 {
+            font-size: 1.4rem;
+            color: var(--dark);
+        }
+        
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--gray-light);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+        
+        th {
+            text-align: left;
+            padding: 18px 20px;
+            background: var(--light);
+            color: var(--dark);
+            font-weight: 600;
+            border-bottom: 2px solid var(--gray-light);
+        }
+        
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        tr:hover {
+            background: var(--light);
+        }
+        
+        /* Status badges */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .priority-tag {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .priority-high {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        .priority-medium {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .priority-low {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+        
+        .customer-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 70px;
+                padding: 20px 0;
+            }
+            
+            .logo-text, .menu-item span {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+                padding: 0 10px 20px;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-spray-can-sparkles"></i>
+            <div class="logo-text">Spotless</div>
+        </div>
+        
+        <div class="menu">
+            <a href="/dashboard" class="menu-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/bookings" class="menu-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="/customers" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            <a href="/cleaners" class="menu-item">
+                <i class="fas fa-user-tie"></i>
+                <span>Cleaners</span>
+            </a>
+            <a href="/settings" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Dashboard Overview</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Booking
+                </button>
+                
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">AD</div>
+                    <div>
+                        <div style="font-weight: 600;" id="userName">Admin User</div>
+                        <div style="font-size: 0.9rem; color: var(--gray);" id="userRole">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="totalBookings">42</div>
+                        <div class="stat-label">Total Bookings</div>
+                    </div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, var(--primary), #818cf8);">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="completedBookings">38</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, var(--secondary), #34d399);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="pendingBookings">3</div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, var(--warning), #f59e0b);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value">$12,540</div>
+                        <div class="stat-label">Revenue</div>
+                    </div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Recent Bookings</h2>
+                <button class="btn btn-primary">View All</button>
+            </div>
+            
+            <div class="table-container">
+                <table id="bookingsTable">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Service</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Bookings will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Quick Actions</h2>
+            </div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="window.location.href='/bookings?action=new'">
+                    <i class="fas fa-plus"></i> New Booking
+                </button>
+                <button class="btn btn-primary" onclick="window.location.href='/customers?action=new'">
+                    <i class="fas fa-user-plus"></i> Add Customer
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-file-invoice"></i> Generate Report
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Send Notifications
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load user data
+        const user = JSON.parse(localStorage.getItem('user') || '{"name":"Admin User","email":"admin@spotless.com","role":"admin"}');
+        const token = localStorage.getItem('token');
+        
+        // Check if user is logged in
+        if (!token) {
+            window.location.href = '/login';
+        }
+        
+        // Update user info in dashboard
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('userRole').textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+        document.getElementById('userAvatar').textContent = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+        
+        // Sample bookings data
+        const bookings = [
+            { customer: 'Sarah Johnson', service: 'Deep Cleaning', date: '2023-10-15', status: 'completed', priority: 'low', amount: '$250' },
+            { customer: 'Michael Chen', service: 'Office Cleaning', date: '2023-10-16', status: 'confirmed', priority: 'high', amount: '$450' },
+            { customer: 'Emma Williams', service: 'Regular Cleaning', date: '2023-10-17', status: 'pending', priority: 'medium', amount: '$180' },
+            { customer: 'David Miller', service: 'Carpet Cleaning', date: '2023-10-18', status: 'confirmed', priority: 'low', amount: '$320' },
+            { customer: 'Lisa Anderson', service: 'Window Cleaning', date: '2023-10-19', status: 'pending', priority: 'high', amount: '$275' }
+        ];
+        
+        // Populate bookings table
+        const tableBody = document.querySelector('#bookingsTable tbody');
+        bookings.forEach(booking => {
+            const row = document.createElement('tr');
+            const initials = booking.customer.split(' ').map(n => n[0]).join('');
+            
+            row.innerHTML = `
+                <td>
+                    <div class="customer-cell">
+                        <div class="customer-avatar">${initials}</div>
+                        <div>
+                            <div style="font-weight: 600;">${booking.customer}</div>
+                            <div style="font-size: 0.85rem; color: var(--gray);">Customer</div>
+                        </div>
+                    </div>
+                </td>
+                <td>${booking.service}</td>
+                <td>${booking.date}</td>
+                <td><span class="status-badge status-${booking.status}">${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</span></td>
+                <td><span class="priority-tag priority-${booking.priority}">${booking.priority.toUpperCase()}</span></td>
+                <td style="font-weight: 600;">${booking.amount}</td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+        
+        // Fetch dashboard data from API
+async function loadDashboardData() {
+    try {
+        const token = localStorage.getItem('token') || 'demo-token';
+        const response = await fetch(`/api/dashboard/stats?token=${token}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                document.getElementById('totalBookings').textContent = data.data.totalBookings;
+                document.getElementById('completedBookings').textContent = data.data.completed;
+                document.getElementById('pendingBookings').textContent = data.data.pending;
+                // Create revenue element if it doesn't exist
+                let revenueEl = document.getElementById('revenue');
+                if (!revenueEl) {
+                    const revenueCard = document.querySelector('.stat-card:nth-child(4) .stat-value');
+                    if (revenueCard) {
+                        revenueCard.id = 'revenue';
+                        revenueEl = revenueCard;
+                    }
+                }
+                if (revenueEl && data.data.revenue) {
+                    revenueEl.textContent = data.data.revenue;
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Failed to load dashboard data:', error);
+        // Fallback to sample data
+        document.getElementById('totalBookings').textContent = "42";
+        document.getElementById('completedBookings').textContent = "38";
+        document.getElementById('pendingBookings').textContent = "3";
+    }
+}
+
+// Load recent bookings from database
+async function loadRecentBookings() {
+    try {
+        const token = localStorage.getItem('token') || 'demo-token';
+        const response = await fetch(`/api/bookings?token=${token}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                const tableBody = document.querySelector('#bookingsTable tbody');
+                tableBody.innerHTML = ''; // Clear existing rows
+                
+                // Take only first 5 bookings for "recent"
+                const recentBookings = data.data.slice(0, 5);
+                
+                recentBookings.forEach(booking => {
+                    const row = document.createElement('tr');
+                    const initials = booking.customer_name ? booking.customer_name.split(' ').map(n => n[0]).join('') : 'CU';
+                    
+                    row.innerHTML = `
+                        <td>
+                            <div class="customer-cell">
+                                <div class="customer-avatar">${initials}</div>
+                                <div>
+                                    <div style="font-weight: 600;">${booking.customer_name || 'Customer'}</div>
+                                    <div style="font-size: 0.85rem; color: var(--gray);">Customer</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${booking.service_type}</td>
+                        <td>${booking.date}</td>
+                        <td><span class="status-badge status-${booking.status}">${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</span></td>
+                        <td><span class="priority-tag priority-${booking.priority}">${booking.priority.toUpperCase()}</span></td>
+                        <td style="font-weight: 600;">${parseFloat(booking.price).toFixed(2)}</td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Failed to load bookings:', error);
+    }
+}
+
+// Load all data on page load
+loadDashboardData();
+loadRecentBookings();
+        
+        // Logout functionality (when clicking settings, show confirmation)
+        document.querySelector('a[href="/settings"]').addEventListener('click', function(e) {
+            // Allow navigation to settings
+            return true;
+        });
+    </script>
+</body>
+</html>
+
