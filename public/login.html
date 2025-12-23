@@ -1,225 +1,421 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Spotless Solution Kenya</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Login | Spotless Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .login-container {
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --light: #f9fafb;
+            --dark: #111827;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
         }
         
-        .login-card {
+        .login-container {
             background: white;
             border-radius: 20px;
-            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            min-height: 600px;
+        }
+        
+        .login-left {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary), #6366f1);
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .login-right {
+            flex: 1;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .welcome-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .welcome-text p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .features {
+            margin-top: 40px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .feature i {
+            font-size: 1.2rem;
+            background: rgba(255,255,255,0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-form-container {
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 0 auto;
         }
         
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .login-logo {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #2c3e50;
+        .login-form-container h2 {
+            font-size: 2rem;
+            color: var(--dark);
             margin-bottom: 10px;
         }
         
-        .login-logo span {
-            color: #007A4D; /* Kenyan green */
-        }
-        
-        .login-subtitle {
-            color: #666;
+        .login-form-container p {
+            color: var(--gray);
             margin-bottom: 30px;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #2c3e50;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--dark);
         }
         
-        .form-control {
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon input {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
+            padding: 15px 15px 15px 50px;
+            border: 1px solid var(--gray-light);
             border-radius: 10px;
-            font-size: 16px;
-            transition: border 0.3s ease;
+            font-size: 1rem;
+            transition: all 0.3s;
         }
         
-        .form-control:focus {
+        .input-with-icon input:focus {
             outline: none;
-            border-color: #007A4D;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
         
-        .btn-login {
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        .btn {
             width: 100%;
             padding: 15px;
-            background: #007A4D;
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
-            margin-top: 10px;
-        }
-        
-        .btn-login:hover {
-            background: #006341;
-        }
-        
-        .login-footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-        
-        .login-footer a {
-            color: #007A4D;
-            text-decoration: none;
-        }
-        
-        .login-footer a:hover {
-            text-decoration: underline;
-        }
-        
-        .flag-decoration {
+            transition: all 0.3s;
             display: flex;
+            align-items: center;
             justify-content: center;
             gap: 10px;
-            margin: 20px 0;
         }
         
-        .flag-color {
-            width: 30px;
-            height: 5px;
-            border-radius: 3px;
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
         }
         
-        .flag-black { background: #000000; }
-        .flag-red { background: #BD271A; }
-        .flag-green { background: #007A4D; }
-        .flag-white { background: #FFFFFF; border: 1px solid #eee; }
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 30px;
+        }
         
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 30px 20px;
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .demo-credentials {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .demo-credentials h4 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .demo-credentials p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 500px;
             }
             
-            .login-logo {
-                font-size: 2em;
+            .login-left, .login-right {
+                padding: 40px 30px;
             }
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <div class="login-logo">Spotless<span>Solution</span></div>
-                <div class="login-subtitle">Kenya's Premier Cleaning Service</div>
-                
-                <div class="flag-decoration">
-                    <div class="flag-color flag-black"></div>
-                    <div class="flag-color flag-red"></div>
-                    <div class="flag-color flag-green"></div>
-                    <div class="flag-color flag-white"></div>
-                </div>
+        <!-- Left Side - Branding -->
+        <div class="login-left">
+            <div class="logo">
+                <i class="fas fa-spray-can-sparkles"></i>
+                <div class="logo-text">Spotless Solution</div>
             </div>
             
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" class="form-control" placeholder="admin@spotless.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
-                </div>
-                
-                <button type="submit" class="btn-login">
-                    🔐 Login to Dashboard
-                </button>
-            </form>
+            <div class="welcome-text">
+                <h1>Welcome Back</h1>
+                <p>Manage your cleaning business efficiently with our comprehensive dashboard. Track bookings, manage staff, analyze performance, and grow your business.</p>
+            </div>
             
-            <div class="login-footer">
-                <p>Default credentials: admin@spotless.com / admin123</p>
-                <p>Need help? <a href="#">Contact Support</a></p>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-calendar-check"></i>
+                    <div>
+                        <h4>Smart Scheduling</h4>
+                        <p>Drag & drop calendar for easy booking management</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h4>Analytics Dashboard</h4>
+                        <p>Real-time insights into your business performance</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-users-cog"></i>
+                    <div>
+                        <h4>Team Management</h4>
+                        <p>Easily manage cleaners, schedules, and assignments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Side - Login Form -->
+        <div class="login-right">
+            <div class="login-form-container">
+                <h2>Sign In</h2>
+                <p>Enter your credentials to access your dashboard</p>
+                
+                <div class="error-message" id="errorMessage">
+                    <i class="fas fa-exclamation-circle"></i> <span id="errorText"></span>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="admin@spotless.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe" name="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        
+                        <a href="#" class="forgot-password" id="forgotPassword">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+                
+                <div class="demo-credentials">
+                    <h4>Demo Credentials</h4>
+                    <p><strong>Email:</strong> admin@spotless.com</p>
+                    <p><strong>Password:</strong> password123</p>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Check if already logged in
+        if (localStorage.getItem('token')) {
+            window.location.href = '/dashboard';
+        }
+        
+        // Handle login form submission
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
             
-            const loginBtn = document.querySelector('.btn-login');
+            // Show loading state
+            const loginBtn = document.getElementById('loginBtn');
             const originalText = loginBtn.innerHTML;
-            loginBtn.innerHTML = '⏳ Logging in...';
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
             loginBtn.disabled = true;
             
             try {
                 const response = await fetch('/api/login', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({ email, password })
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    // Store user data in localStorage
-                    localStorage.setItem('spotless_user', JSON.stringify(data.user));
-                    localStorage.setItem('spotless_token', data.token);
+                    // Store token and user data
+                    if (rememberMe) {
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                    } else {
+                        sessionStorage.setItem('token', data.token);
+                        sessionStorage.setItem('user', JSON.stringify(data.user));
+                    }
                     
-                    // Show success message
-                    loginBtn.innerHTML = '✅ Login Successful!';
-                    
-                    // Redirect to dashboard after 1 second
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1000);
+                    // Redirect to dashboard
+                    window.location.href = '/dashboard';
                 } else {
-                    alert('❌ Login failed: ' + data.message);
-                    loginBtn.innerHTML = originalText;
-                    loginBtn.disabled = false;
+                    showError(data.message || 'Invalid credentials');
                 }
             } catch (error) {
-                alert('❌ Error: ' + error.message);
+                console.error('Login error:', error);
+                showError('Network error. Please try again.');
+            } finally {
+                // Reset button
                 loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;
             }
         });
         
-        // Auto-fill demo credentials for testing
-        window.addEventListener('load', function() {
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                document.getElementById('email').value = 'admin@spotless.com';
-                document.getElementById('password').value = 'admin123';
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            errorText.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Forgot password handler
+        document.getElementById('forgotPassword').addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = prompt('Please enter your email address to reset password:');
+            if (email) {
+                alert(`Password reset link would be sent to ${email} in a production environment.`);
             }
         });
     </script>
