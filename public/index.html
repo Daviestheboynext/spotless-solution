@@ -3,26 +3,30 @@
 <head>
     <title>Spotless Solution Kenya</title>
     <style>
-        body { font-family: Arial; text-align: center; padding: 50px; background: #007A4D; color: white; }
+        body { font-family: Arial; background: #007A4D; color: white; text-align: center; padding: 50px; }
         h1 { margin-bottom: 30px; }
-        a { color: #FFB81C; text-decoration: none; font-weight: bold; }
-        .container { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 10px; max-width: 600px; margin: 0 auto; }
+        .container { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 10px; max-width: 800px; margin: 0 auto; }
+        .btn { display: inline-block; background: #FFB81C; color: #000; padding: 12px 25px; margin: 10px; border-radius: 5px; text-decoration: none; font-weight: bold; }
+        .api-list { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; margin: 20px 0; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>✨ Spotless Solution Kenya</h1>
         <p>Professional Cleaning Management System</p>
-        <p><strong>✅ Successfully Deployed!</strong></p>
-        <p>Live at: spotless-solution-3dri.onrender.com</p>
+        <p><strong>✅ System Deployed & Working!</strong></p>
         
-        <h3>Quick Links:</h3>
-        <p><a href="/dashboard">📊 Dashboard</a></p>
-        <p><a href="/api/dashboard/stats">📈 API Stats</a></p>
-        <p><a href="/api/reports">📋 Reports API</a></p>
-        <p><a href="/api/bookings">📅 Bookings API</a></p>
+        <div class="api-list">
+            <h3>Working API Endpoints:</h3>
+            <a href="/api/dashboard/stats" class="btn" target="_blank">Dashboard Stats</a>
+            <a href="/api/reports" class="btn" target="_blank">Reports API</a>
+            <a href="/api/bookings" class="btn" target="_blank">Bookings API</a>
+            <a href="/api/services" class="btn" target="_blank">Services API</a>
+            <a href="/api/login" class="btn" target="_blank">Login API</a>
+        </div>
         
-        <p style="margin-top: 30px; font-size: 0.9em;">Backend API is fully functional | Node.js | Render</p>
+        <p><strong>Live URL:</strong> spotless-solution-3dri.onrender.com</p>
+        <p><strong>Tech:</strong> Node.js + Express + Render</p>
     </div>
 </body>
 </html>
